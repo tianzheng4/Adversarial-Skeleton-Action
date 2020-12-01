@@ -1,4 +1,4 @@
-ADMMattack# encoding: utf-8
+# encoding: utf-8
 
 import sys
 import argparse
@@ -29,7 +29,7 @@ from defense import *
 import setGPU
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--dataset_dir', default='/data/zth/ntu', help="root directory for all the datasets")
+parser.add_argument('--dataset_dir', default='/opt/data/zth/ntu', help="root directory for all the datasets")
 parser.add_argument('--dataset_name', default='NTU-RGB-D-CV', help="dataset name ") # NTU-RGB-D-CS,NTU-RGB-D-CV
 parser.add_argument('--model_dir', default='./',
                     help="parents directory of model")
@@ -108,6 +108,7 @@ def attack(model, loss_fn, dataloader, metrics, params, logger,
                 lambda_bone, lambda_joint, lambda_velocity = lambda_bone.cuda(), lambda_joint.cuda(), lambda_velocity.cuda()
             else:
                 data, data_adv, label = data.cuda(params.gpu_id), data_adv.cuda(params.gpu_id), label.long().cuda(params.gpu_id)
+                lambda_bone, lambda_joint, lambda_velocity = lambda_bone.cuda(params.gpu_id), lambda_joint.cuda(params.gpu_id), lambda_velocity.cuda(params.gpu_id)
 
 
         bone_length, joint_bone1, joint_bone2, velocity = ADMMattack.preprocess(data.data)
